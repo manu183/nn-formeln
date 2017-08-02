@@ -1,0 +1,122 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[ngerman]{babel}
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage[section]{placeins}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{float}
+\usepackage{multicol}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+
+\begin{document}
+
+\section{Bayes-Theorie}
+
+\section{Aktivierungsfunktionen}
+
+Marius
+
+
+\section{Fehlerfunktionen}
+
+\begin{itemize}
+\item $E_{MSE}(w) = \frac{1}{2} \sum\limits_{x \in X} \sum\limits_k (t^x_k - o^x_k)^2$
+\item Mean-Squared-Error = $\frac{1}{N} * SSE$
+\item $E_{CE}(w) = - \sum\limits_{x \in X} \sum\limits_k [t^x_k * log(o^x_k) + (1-t^x_k)*log(1-o^x_k)]$
+\end{itemize}
+
+\section{Perzeptron Lernalgorithmus}
+
+$w_{i}^{t+1} = w_i^t + \eta (t_x - o_x) x_i$
+
+\section{Backpropagation}
+
+$w = w - \eta \nabla_w E(x,w)$ mit $\nabla_w E = \frac{\partial E}{\partial o} \frac{\partial o}{\partial \sigma} \frac{\partial \sigma}{\partial w}$
+
+\section{Hopfield}
+
+Aktivierung
+
+
+\section{Boltzmann-Maschinen}
+
+Aktivierung
+
+\section{Restricted-Boltzmann-Maschinen}
+
+Aktivierung
+
+\section{Reinforcement Learning}
+
+Q-Learning
+Bellmanngleichung
+Policyfunktion
+TD-Learning ---
+SARSA
+
+\section{Generalisierung}
+
+$<\epsilon_{†est}> = <\epsilon_{train}> + 2 \cdot \sigma^2 \frac{p}{n}$ mit Varianz $\sigma$, Parameteranzahl $p$ und Anzahl an Trainingsbeispielen $n$
+
+
+\section{Normalisierung}
+
+\begin{itemize}
+\item Max-Min (Rescaling): $x' = \frac{x - min(x)}{max(x) - min(x)}$
+\item Standardisierung: $x' = \frac{x - \bar{x}}{\sigma}$
+\item Skalierung auf Einheitslänge: $x' = \frac{x}{||x||}$
+\item lückenhafte Daten: Null filling - Smoothing
+\end{itemize}
+
+\section{Regularisierung}
+
+\begin{itemize}
+\item L1 Norm: $||w||_{L1} = \sum\limits_j |w_j|$
+\item L2 Norm: $||w||_{L2} = \sum\limits_j w^2_j$
+\item KL-Divergenz:
+\item Cross-Entropy: $E_{CE}(w) = - \sum\limits_{x \in X} \sum\limits_k [t^x_k * log(o^x_k) + (1-t^x_k)*log(1-o^x_k)]$
+\item Edit-Distance: 
+\item Dropout: 
+\item Meiosis: 
+\end{itemize}
+
+\section{Adaptive Lernratenanpassung}
+
+\begin{itemize}
+\item AdaGrad: $w_t = w_{t-1} - \frac{\eta}{\sqrt{G_t+\epsilon}} L(x,w_{t-1})$ mit der Diagonalmatrix $G_t$, die die Beträge des Gradienten enthält und $\epsilon$: Smoothingterm, um Division durch 0 zu verhindern
+\item $w_t = w_{t-1} - \frac{RMS[\Delta w]_{t-1}}{RMS[g]_t}g_t$, wobei $RMS[\Delta w]_t$ der \glqq root mean squared error\grqq\ $\sqrt{E[\Delta w^2]_t + \epsilon}$ ist.
+\item RMSProp: $w_t = w_{t-1} - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} g_t$
+\end{itemize}
+
+\section{Updates für Backprop}
+
+\begin{itemize}
+\item Momentum-Term: $\Delta w_{ij}(t) = - \eta \frac{\partial E}{\partial w_{ij}(t)} + \alpha * \Delta w_{ij}(t-1)$
+\item QuickProp: 
+\item WeightElimination: 
+\end{itemize}
+
+\section{Autoencoders}
+
+Deaktivierung von Sparse Autoencoder: 
+
+\section{Shared Weights bei TDNNs}
+
+Formel: 
+
+\section{Komisches Bild mit random $cos$ einfügen}
+
+\section{LVQ}
+
+Random Formeln hier:
+
+\end{document}
