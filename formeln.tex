@@ -21,6 +21,8 @@
 
 \section{Bayes-Theorie}
 
+$p(w|f) = \frac{p(f|w) p(w)}{p(f)}$
+
 \section{Aktivierungsfunktionen}
 The activation functions should have the following properties:
 \begin{itemize}
@@ -128,9 +130,9 @@ $w_{ij}$: weight between state j and i\\
 \[
 p(s_i = 1) = \frac{1}{1 + e^{-\frac{z_i}{T}}}
 \]
-\section{Restricted-Bo	ltzmann-Maschinen}
+\section{Restricted-Boltzmann-Maschinen}
 \begin{align*}
-E(V, H) &= - \sum_{i01}^m \sum_{j=1}^F W_{ij} h_j v_i - \sum_{i=1}^m v_i a_i - \sum_{j=1}^F h_j b_j \\
+E(V, H) &= - \sum_{i=1}^m \sum_{j=1}^F W_{ij} h_j v_i - \sum_{i=1}^m v_i a_i - \sum_{j=1}^F h_j b_j \\
 p(h_j = 1 | V) &= \sigma(b_j + \sum_{j=1}^m W_{ij}v_i \\
 p(v_i = 1 | H) &= \sigma(a_j + \sum_{j=1}^F W_{ij}h_j \\
 \sigma &= \frac{1}{1+e^{-x}}
@@ -200,7 +202,7 @@ $<\epsilon_{†est}> = <\epsilon_{train}> + 2 \cdot \sigma^2 \frac{p}{n}$ mit Va
 \item L2 Norm: $||w||_{L2} = \sum\limits_j w^2_j$
 \item KL-Divergenz:
 \[
-KL(p || \widehat{p}_j) = p \log(\frac{p}{\widehat{p}_j} + (1 - p) \log(\frac{1 - p}{1 - \widehat{p}_j})
+KL(p || \widehat{p}_j) = p \log(\frac{p}{\widehat{p}_j}) + (1 - p) \log(\frac{1 - p}{1 - \widehat{p}_j})
 \]
 \item Cross-Entropy: $E_{CE}(w) = - \sum\limits_{x \in X} \sum\limits_k [t^x_k * log(o^x_k) + (1-t^x_k)*log(1-o^x_k)]$
 \item Edit-Distance: 
@@ -249,7 +251,7 @@ force this average activation to be p $\approx$ 0.2 by adding the Kullback–Lei
 \end{itemize}
 
 
-\section{Komisches Bild mit random $cos$ einfügen}
+\section{Gewichtsupdate mit $cos$}
 
 \begin{figure}[h]
 \includegraphics[scale=0.3]{img/dynamic-learning-rate}
