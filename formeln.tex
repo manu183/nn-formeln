@@ -128,7 +128,7 @@ $w_{ij}$: weight between state j and i\\
 \[
 p(s_i = 1) = \frac{1}{1 + e^{-\frac{z_i}{T}}}
 \]
-\section{Restricted-Boltzmann-Maschinen}
+\section{Restricted-Bo	ltzmann-Maschinen}
 \begin{align*}
 E(V, H) &= - \sum_{i01}^m \sum_{j=1}^F W_{ij} h_j v_i - \sum_{i=1}^m v_i a_i - \sum_{j=1}^F h_j b_j \\
 p(h_j = 1 | V) &= \sigma(b_j + \sum_{j=1}^m W_{ij}v_i \\
@@ -137,12 +137,47 @@ p(v_i = 1 | H) &= \sigma(a_j + \sum_{j=1}^F W_{ij}h_j \\
 \end{align*}
 
 \section{Reinforcement Learning}
-
-Q-Learning
-Bellmanngleichung
-Policyfunktion
-TD-Learning ---
+Bellmanngleichung:
+\[
+Q^{\pi}(s, a) = \mathbb{E}[r_{t + 1} + \gamma r_{t + 2} + \gamma^2 r_{t + 2} + \gamma^3 r_{t + 3} + ... | s, a]
+\]
+Recursively:
+\[
+Q^{\pi}(s, a) = \mathbb{E}_{s^{'}}[r_{t + 1} + \gamma Q^{\pi}(s^{'}, a^{'})| s, a]
+\]
+Optimal value function:
+\[
+Q^{*}(s, a) = \mathbb{E}_{s^{'}}[r_{t + 1} + \gamma Q^{\pi}(s^{'}, a^{'})| s, a]
+\]
+Value iteration solve the Ballman Equation:
+\[
+Q_{i + 1}(s, a) = \mathbb{E}_{s^{'}}[r_{t + 1} + \gamma Q_i(s^{'}, a^{'})| s, a]
+\]
+\\[1cm]
+Objective function by \textit{mean-squared error} in Q-values:
+\[
+L(w) = \mathbb{E}[(r + \gamma max_{a^{'}}Q(s^{'}, a^{'}, w^{'} - Q(s, a, w))^2]
+\]
+Q-learning gradient:
+\[
+\frac{\delta L(w)}{\delta w} = \mathbb{E}[(r + \gamma max_{a^{'}}Q(s^{'}, a^{'}, w^{'} - Q(s, a, w)) \frac{\delta Q(s, a, w)}{\delta w}]
+\]
+General TD-learning update rule:
+\[
+Q(s_t, a_t) += learning_rate \cdot (td_target - Q(s_t, a_t))
+\]
+TD Target for SARSA:
+\[
+R_{t + 1} + discount_factor \cdot Q(s_{t + 1}, a_{t + 1})
+\]
+TD Target for Q-Learning:
+\[
+R_{t + 1} + discount_factor \cdot maxQ(s_{t + 1}, a_{t + 1})
+\]
 SARSA
+\[
+Q(s_t, a_t) += \alpha [r_t + \gamma Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t)]
+\]
 
 \section{Generalisierung}
 
@@ -164,10 +199,20 @@ $<\epsilon_{†est}> = <\epsilon_{train}> + 2 \cdot \sigma^2 \frac{p}{n}$ mit Va
 \item L1 Norm: $||w||_{L1} = \sum\limits_j |w_j|$
 \item L2 Norm: $||w||_{L2} = \sum\limits_j w^2_j$
 \item KL-Divergenz:
+\[
+KL(p || \widehat{p}_j) = p \log(\frac{p}{\widehat{p}_j} + (1 - p) \log(\frac{1 - p}{1 - \widehat{p}_j})
+\]
 \item Cross-Entropy: $E_{CE}(w) = - \sum\limits_{x \in X} \sum\limits_k [t^x_k * log(o^x_k) + (1-t^x_k)*log(1-o^x_k)]$
 \item Edit-Distance: 
 \item Dropout: 
-\item Meiosis: 
+\item Meiosis: Idea: adding of hidden unis depends on the ''uncertainty'' of the network. The mean and varianz is learned.
+\[
+w_{ij}^{*} = \mu(w_{ij}) + \sigma(w_{ij}) \phi(0, 1)
+\]
+Start with one hidden unit and split unit if
+\[
+\frac{\sum_i \sigma_{ij}}{\sum_i \mu_{ij}} > 1.0 \: and \: \frac{\sum_k \sigma_{ik}}{\sum_k \mu_{ik}} > 1.0
+\]
 \end{itemize}
 
 \section{Adaptive Lernratenanpassung}
@@ -182,22 +227,60 @@ $<\epsilon_{†est}> = <\epsilon_{train}> + 2 \cdot \sigma^2 \frac{p}{n}$ mit Va
 
 \begin{itemize}
 \item Momentum-Term: $\Delta w_{ij}(t) = - \eta \frac{\partial E}{\partial w_{ij}(t)} + \alpha * \Delta w_{ij}(t-1)$
-\item QuickProp: 
-\item WeightElimination: 
+\item QuickProp: \[
+\Delta w(t) = \frac{s(t)}{s(t - 1) - s(t)} \cdot \Delta w(t-1)
+\]
+\item WeightElimination: \[
+E = MSE + \lambda \sum_{i,j} \frac{w_{i,j}^2}{1 + w_{i,j}^2}
+\]
 \end{itemize}
 
 \section{Autoencoders}
-
-Deaktivierung von Sparse Autoencoder: 
-
+Durchschnittliche Aktivierung von Sparse Autoencoder: 
+\[
+\widehat{p_j} = \frac{1}{|N|} \sum_{x \in X} w_j x
+\]
+force this average activation to be p $\approx$ 0.2 by adding the Kullback–Leibler divergence $KL(p || \widehat{p_j})$ to the error function
 \section{Shared Weights bei TDNNs}
+\begin{itemize}
+	\item[1.]$w_j^{t_1} = w_j^{t_2} \Rightarrow \Delta w_j^{t_1} = \Delta w_j^{t_2}$
+	\item[2.]Berechne $\frac{\partial E}{\partial w_j^{t_1}}$ und $\frac{\partial E}{\partial w_j^{t_2}}$
+	\item[3.] $\Delta w_j^{t_1} = \Delta w_j^{t_2} = -\eta \left(\frac{\partial E}{\partial w_j^{t_1}} + \frac{\partial E}{\partial w_j^{t_2}}\right)$
+\end{itemize}
 
-Formel: 
 
 \section{Komisches Bild mit random $cos$ einfügen}
 
+\begin{figure}[h]
+\includegraphics[scale=0.3]{img/dynamic-learning-rate}
+\end{figure}
+
 \section{LVQ}
 
-Random Formeln hier:
+\subsection{LVQ1}
+\label{sssect:vq-lvq1}
+$c = argmin_i\{||x - m_i||\}$: Index des prototype vectors\\
+Learning rules:
+\begin{itemize}
+	\item $m_c(t + 1) = m_c(t) + \alpha(t)[x(t) - m_c(t)]$: $x$ und $m_c$ selbe Klasse
+	\item $m_c(t + 1) = m_c(t) - \alpha(t)[x(t) - m_c(t)]$: $x$ und $m_c$ unterschiedliche Klasse
+	\item $m_c(t + 1) = m_i(t)$: für $i \neq c$
+\end{itemize}
+
+\subsection{LVQ2}
+\label{sssect:vq-lvq2}
+Die Klassifizierung ist die selbe wie bei LVQ1. Das updaten ist anders:
+\begin{itemize}
+	\item $m_i$ und $m_j$ sind die nähsten Nachbarn von $x$ und werden simulaten geupdated.
+	\item $x$ muss in ein ''window'' um $m_i$ und $m_j$ fallen.
+	\item $d_i$ und $d_j$ sind die Distanzen (z.B. euklidien) zwischen $x$ und $m_i$ und $m_j$
+	\item $min \left(\frac{d_i}{d_j}, \frac{d_j}{d_i}\right) > s$ where $s = \frac{1 - w}{1 + w}$ (recommended window: 0.2 to 0.3)
+\end{itemize}
+
+
+Ergänzungen:
+$m_i$ ist der Gewinner (falsche klasse)
+$m_j$ zweiter gewinner, richtige klasse -> dann updaten
+$\alpha$ die Lernrate wird kleiner und kleiner
 
 \end{document}
